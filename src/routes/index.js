@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { ReactDOM } from "react";
 import {
   BrowserRouter as Router,
-  Routes as Switch,
-  Route,
   useRoutes,
   Navigate
 } from "react-router-dom";
 import LoginPage from "../pages/Login";
 import HomePage from "../pages/Home";
-import UserList from "../pages/users/list";
+import UserList from "../pages/users/List";
+import UserEdit from "../pages/users/Edit";
+import UserCreate from "../pages/users/Create";
 import Dashboard from "../pages/Dashboard";
 
 const RedirectLogin = () => {
@@ -32,6 +32,8 @@ const RouteList = () => {
   let auth_routes = useRoutes([
     { path: '/dashboard', element: <HomePage page={<Dashboard/>} idx={'1'}/>},
     { path: '/users', element: <HomePage page={<UserList/>} idx={'2'}/>},
+    { path: '/users/create', element: <HomePage page={<UserCreate/>} idx={'2'}/>},
+    { path: '/users/:id', element: <HomePage page={<UserEdit/>} idx={'2'}/>},
     { path: '/*', element: <RedirectDashboard/>}
   ]);
   if (localStorage.getItem('token') == null) {

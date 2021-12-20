@@ -1,29 +1,21 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { ReactDOM } from "react";
-import { Layout, Menu, Breadcrumb, Typography, Row, Col, Popover } from "antd";
+import React, { useState } from "react";
+import {Layout, Menu, Breadcrumb, Typography, Row, Col, Popover, notification, Button, Divider} from "antd";
 import { HomeOutlined, UserOutlined, KeyOutlined, IdcardOutlined, HddOutlined, CodeOutlined, LockOutlined, MacCommandOutlined } from '@ant-design/icons';
-import md5 from 'crypto-js/md5';
 import API from '../services/API';
-import pkg from "../../package.json";
-import Noty from 'noty';
-import "noty/lib/noty.css";
-import "noty/lib/themes/mint.css";
 import {
-  BrowserRouter as Router,
-  Routes as Switch,
-  Route,
-  Link
+  Link, useNavigate
 } from "react-router-dom";
+import pkg from "../../package.json";
+import getEmoji from 'get-random-emoji'
 
 const { Header, Sider, Content } = Layout;
-const { SubMenu } = Menu;
-const { Title } = Typography;
-const emailMD5 = md5(localStorage.getItem('email'));
+const { Title, Text } = Typography;
 
 function HomePage(props) {
 
+  const navigate = useNavigate();
   const [popAvatar, setPopAvatar] = useState(false);
-  const PageComponent = ( props ) => <div>{props.page}</div>;
+  const [emoji, setEmoji] = useState(getEmoji())
 
   function logout() {
     API.post(`logout`, {
@@ -34,12 +26,17 @@ function HomePage(props) {
       localStorage.removeItem('id');
       localStorage.removeItem('role');
       localStorage.removeItem('token');
-      window.location.replace('/login');
+      navigate('/login');
     }).catch((err) => {
-      new Noty({
-        type: 'error',
-        text: err.response.data['message']
-    }).show();
+      localStorage.removeItem('name');
+      localStorage.removeItem('email');
+      localStorage.removeItem('id');
+      localStorage.removeItem('role');
+      localStorage.removeItem('token');
+      notification.error({
+        message: err.response.data['message']
+      });
+      navigate('/login');
     });
   }
 
@@ -52,12 +49,20 @@ function HomePage(props) {
           </Col>
           <Col span={1}>
             <Popover
-              content={<a onClick={logout}>Logout</a>}
+              content={
+                <Row>
+                  <Col style={{ textAlign: 'center' }}>
+                    <Text>{localStorage.getItem('name')} - {emoji}</Text><br/>
+                    <Divider style={{ marginTop: 5, marginBottom: 10 }}/>
+                    <Button onClick={logout} style={{ width: '100%' }}>Logout</Button>
+                  </Col>
+                </Row>
+              }
               trigger="click"
               visible={popAvatar}
               onVisibleChange={() => setPopAvatar(!popAvatar) }
             >
-              <img style={{ width: '3em', borderRadius: 100, cursor: 'pointer' }} src={`https://www.gravatar.com/avatar/${emailMD5}}`}/>
+              <img style={{ width: '3em', borderRadius: 100, cursor: 'pointer' }} src={`https://avatars.dicebear.com/api/micah/${localStorage.getItem('name')}.svg?b=%231a446b`}/>
             </Popover>
           </Col>
         </Row>
@@ -91,6 +96,12 @@ function HomePage(props) {
               <Link to={"/vendors"}>Vendors</Link>
             </Menu.Item>
           </Menu>
+          <Row justify='center' style={{ position: 'absolute', bottom: 10, width: '100%' }}>
+            <Col style={{ textAlign: 'center' }}>
+              <Text style={{ color: 'white', fontSize: '1em'}} level={5} code>Neom - v{pkg.version}</Text><br/>
+              <Text style={{ color: 'white', fontSize: '0.9em'}} level={5} code>Made with ❤️ by Ernesto Muniz</Text>
+            </Col>
+          </Row>
         </Sider>
         <Content style={{ padding: 20 }}>
           {props.page}

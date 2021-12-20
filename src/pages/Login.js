@@ -1,11 +1,8 @@
 import React, { useState, useLayoutEffect } from "react";
-import { Row, Col, Card, Form, Input, Button, Typography } from 'antd';
+import {Row, Col, Card, Form, Input, Button, Typography, notification} from 'antd';
 import { MailOutlined, KeyOutlined, LoadingOutlined } from '@ant-design/icons';
 import pkg from '../../package.json';
 import API from "../services/API";
-import Noty from 'noty';
-import "noty/lib/noty.css";
-import "noty/lib/themes/mint.css";
 import { useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
@@ -34,10 +31,9 @@ function LoginPage() {
             localStorage.setItem('token', res.data['token']);
             navigate('/dashboard');
         }).catch((err) => {
-            new Noty({
-                type: 'error',
-                text: err.response.data['message']
-            }).show();
+            notification.error({
+                message: err.response.data['message']
+            });
         })
     }
 
