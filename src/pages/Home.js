@@ -92,9 +92,6 @@ function HomePage(props) {
             <Menu.Item key="7" icon={<LockOutlined/>}>
               <Link to={"/script-users"}>Script Users</Link>
             </Menu.Item>
-            <Menu.Item key="8" icon={<MacCommandOutlined/>}>
-              <Link to={"/vendors"}>Vendors</Link>
-            </Menu.Item>
           </Menu>
           <Row justify='center' style={{ position: 'absolute', bottom: 10, width: '100%' }}>
             <Col style={{ textAlign: 'center' }}>

@@ -29,7 +29,7 @@ function LoginPage() {
             localStorage.setItem('id', res.data['id']);
             localStorage.setItem('role', res.data['role']);
             localStorage.setItem('token', res.data['token']);
-            navigate('/dashboard');
+            window.location.replace('/dashboard');
         }).catch((err) => {
             notification.error({
                 message: err.response.data['message']
