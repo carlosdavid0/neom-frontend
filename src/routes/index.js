@@ -1,5 +1,4 @@
 import React from "react";
-import { ReactDOM } from "react";
 import {
   BrowserRouter as Router,
   useRoutes,
@@ -11,9 +10,8 @@ import UserList from "../pages/users/List";
 import PermissionList from "../pages/permissions/List";
 import RoleList from "../pages/roles/List";
 import OltList from "../pages/olts/List";
-import ScriptList from "../pages/scripts/List";
-import ScriptUserList from "../pages/script_users/List";
 import Dashboard from "../pages/Dashboard";
+import NavigatePage from "../pages/Navigate";
 
 const RedirectLogin = () => {
   return(
@@ -34,12 +32,11 @@ const RouteList = () => {
   ]);
   let auth_routes = useRoutes([
     { path: '/dashboard', element: <HomePage page={<Dashboard/>} idx={'1'}/>},
+    { path: '/navigate/:id', element: <HomePage page={<NavigatePage/>} idx={'1'}/>},
     { path: '/users', element: <HomePage page={<UserList/>} idx={'2'}/>},
     { path: '/roles', element: <HomePage page={<RoleList/>} idx={'3'}/>},
     { path: '/permissions', element: <HomePage page={<PermissionList/>} idx={'4'}/>},
     { path: '/olts', element: <HomePage page={<OltList/>} idx={'5'}/>},
-    { path: '/scripts', element: <HomePage page={<ScriptList/>} idx={'6'}/>},
-    { path: '/script-users', element: <HomePage page={<ScriptUserList/>} idx={'7'}/>},
     { path: '/*', element: <RedirectDashboard/>}
   ]);
   if (localStorage.getItem('token') == null) {

@@ -1,11 +1,12 @@
 import React, { useState, useLayoutEffect } from "react";
-import {Row, Col, Card, Form, Input, Button, Typography, notification} from 'antd';
-import { MailOutlined, KeyOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Row, Col, Card, Form, Input, Button, Typography, notification } from 'antd';
+import { MailOutlined, KeyOutlined } from '@ant-design/icons';
 import pkg from '../../package.json';
 import API from "../services/API";
 import { useNavigate } from "react-router-dom";
-
-const { Title } = Typography;
+import BgLogin from "../assets/blobs/bg-login.svg"
+import LogoSVG from "../assets/svgs/Logo";
+import TypoSVG from "../assets/svgs/Typo";
 
 function LoginPage() {
 
@@ -15,9 +16,9 @@ function LoginPage() {
 
     useLayoutEffect(() => {
         if (localStorage.getItem('token') != null) {
-          navigate('/dashboard');
+            navigate('/dashboard');
         }
-      }, []);
+    }, [navigate]);
 
     function login() {
         API.post(`login`, {
@@ -29,6 +30,7 @@ function LoginPage() {
             localStorage.setItem('id', res.data['id']);
             localStorage.setItem('role', res.data['role']);
             localStorage.setItem('token', res.data['token']);
+            localStorage.setItem('permissions', res.data['permissions']);
             window.location.replace('/dashboard');
         }).catch((err) => {
             notification.error({
@@ -38,27 +40,33 @@ function LoginPage() {
     }
 
     return (
-        <Row justify="center" align="middle" style={{ height: '100%', backgroundColor: '#f1f4f8' }}>
+        <Row justify="center" align="middle" style={{ height: '100%', backgroundImage: `url(${BgLogin})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
             <Col span={6}>
-                <Card title="Neom - Login">
+                <Row align="center" style={{marginBottom: 10}}>
+                    <Col>
+                        <LogoSVG fill="#fff" style={{marginRight: 15}}/>
+                        <TypoSVG fill="#fff"/>
+                    </Col>
+                </Row>
+                <Card>
                     <Form
                         name="login"
                     >
                         <Form.Item
                             name="email"
-                            rules={[{ required: true, message: 'This field is required'}]}
+                            rules={[{ required: true, message: 'This field is required' }]}
                         >
-                            <Input value={email} onChange={e => setEmail(e.target.value)} size="large" placeholder="E-Mail" prefix={<MailOutlined />}/>
+                            <Input value={email} onChange={e => setEmail(e.target.value)} size="large" placeholder="E-Mail" prefix={<MailOutlined />} />
                         </Form.Item>
                         <Form.Item
                             name="password"
-                            rules={[{ required: true, message: 'This field is required'}]}
+                            rules={[{ required: true, message: 'This field is required' }]}
                         >
-                            <Input.Password value={password} onChange={e => setPassword(e.target.value)} size="large" placeholder="Password" prefix={<KeyOutlined />}/>
+                            <Input.Password value={password} onChange={e => setPassword(e.target.value)} size="large" placeholder="Password" prefix={<KeyOutlined />} />
                         </Form.Item>
                         <Form.Item>
                             <Row justify="space-between">
-                                <a href="#">Forgot your password?</a>
+                                <Button type="link">Forgot your password?</Button>
                                 <Button type="primary" htmlType="submit" onClick={login}>
                                     Login
                                 </Button>
@@ -66,9 +74,12 @@ function LoginPage() {
                         </Form.Item>
                     </Form>
                 </Card>
-                <Row justify="center" style={{ marginTop: 10 }}>
-                    <p><b>Made with ❤️ by Ernesto Muniz - v{pkg.version}</b></p>
+                <Row justify="center" style={{ marginTop: 10, color: 'white' }}>
+                    <p><b>Neom - v{pkg.version}</b></p>
                 </Row>
+            </Col>
+            <Col>
+
             </Col>
         </Row>
     );

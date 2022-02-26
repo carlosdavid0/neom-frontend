@@ -1,0 +1,71 @@
+{
+	"actions": {
+		"access": "Acessar",
+		"create": "Criar",
+		"create_new": "Criar Novo",
+		"edit": "Editar",
+		"logout": "Sair",
+		"reboot": "Reiniciar",
+		"remove": "Remover"
+	},
+	"alerts": {
+		"added_onu": "ONU adicionada",
+		"created_olt": "OLT criada",
+		"operation_error": "Erro na Operação"
+	},
+	"panel": {
+		"dashboard": "Dashboard",
+		"permissions": "Permissões",
+		"roles": "Grupos",
+		"users": "Usuários"
+	},
+	"placeholder": {
+		"email": "E-Mail - Deve ser único",
+		"name": "Nome - O avatar será gerado com base nisso",
+		"password": "Senha - Forte por favor ☕️",
+		"password_edit": "Senha - Deixe em branco se não quiser mudá-la"
+	},
+	"questions": {
+		"remove_olt": "Tem certeza que quer remover essa OLT?",
+		"remove_permission": "Tem certeza que quer remover essa permissão?",
+		"remove_role": "Tem certeza que quer remover esse grupo?",
+		"remove_user": "Tem certeza que quer remover esse usuário?"
+	},
+	"tables": {
+		"actions": "Ações",
+		"description": "Descrição",
+		"enabled": "Habilitado",
+		"model": "Modelo",
+		"name": "Nome",
+		"position": "Posição",
+		"serial_number": "Número de Série",
+		"signal": "Sinal",
+		"username": "Nome de Usuário",
+		"vendor": "Fabricante"
+	},
+	"texts": {
+		"action": "Ação",
+		"active": "Ativo",
+		"add": "Adicionar",
+		"cancel": "Cancelar",
+		"inactive": "Inativo",
+		"items": "Itens",
+		"name": "Nome",
+		"no": "Não",
+		"no_data_olt": "Sem Dados",
+		"of": "De",
+		"olt_information": "Informações da OLT",
+		"onu_serial": "Serial da ONU",
+		"password": "Senha",
+		"permission": "Permissão",
+		"port": "Porta",
+		"role": "Grupo",
+		"save": "Salvar",
+		"select_olt": "Selecione uma OLT da tabela na esquerda",
+		"type": "Tipo",
+		"unauthorized": "ONUs Não Autorizadas",
+		"user": "Usuário",
+		"version": "Versão",
+		"yes": "Sim"
+	}
+}
