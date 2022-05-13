@@ -1,13 +1,13 @@
-import React, { useEffect } from "react"
-import { Card, Row, Col, Table, Tag, Menu, Input, Button, Typography, Popconfirm, message, Modal, Form, Select } from 'antd'
+import React, { useEffect, useState } from "react"
+import { Card, Row, Col, Table, Tag, Menu, Input, Button, Typography, Popconfirm, message, Modal, Form, Select, Tooltip } from 'antd'
 import scrollIntoView from "scroll-into-view"
-import { useState } from "react/cjs/react.development"
 import API from "../services/API"
 import { useParams } from "react-router-dom"
 import range from "node-range"
-import { ReloadOutlined, MinusCircleOutlined, PoweroffOutlined } from "@ant-design/icons"
+import { ReloadOutlined, MinusCircleOutlined, PoweroffOutlined, LoadingOutlined, InfoCircleOutlined } from "@ant-design/icons"
 import { FaEthernet, FaHdd, FaProjectDiagram } from 'react-icons/fa'
 import { useTranslation } from "react-i18next"
+import ResponseModal from "../components/ResponseModal"
 
 const { SubMenu } = Menu
 const { Title } = Typography
@@ -28,9 +28,12 @@ function NavigatePage() {
   const [loadPending, setLoadPending] = useState(false)
   const [loadSearch, setLoadSearch] = useState(false)
   const [loadConfirm, setLoadConfirm] = useState(false)
+  const [loadOltInfo, setLoadOltInfo] = useState(true)
   const [loadAdd, setLoadAdd] = useState(false)
   const [showAdd, setShowAdd] = useState(false)
   const [showSrv, setShowSrv] = useState(false)
+  const [showModalResponse, setShowModalResponse] = useState(false)
+  const [responseContent, setResponseContent] = useState('')
   const [oltSlots, setOltSlots] = useState([])
   const [FormAdd] = Form.useForm();
   const [bridge, setBridge] = useState(true)
@@ -42,39 +45,39 @@ function NavigatePage() {
       title: t('tables.position'),
       dataIndex: 'key',
       key: 'key',
-      width: 100,
       sorter: (a, b) => a.pos.split('/')[2] - b.pos.split('/')[2],
-      render: text => text.split('/')[text.split('/').length - 1]
+      render: text => text.split('/')[text.split('/').length - 1],
+      width: '10%'
     },
     {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      width: 100,
       sorter: (a, b) => a.status.localeCompare(b.status),
-      render: text => text === 'Active' ? <Tag color={'mediumseagreen'}><b>{t('texts.active')}</b></Tag> : <Tag color={'crimson'}><b>{t('texts.inactive')}</b></Tag>
+      render: text => text === 'Active' ? <Tag style={{width: '6em', textAlign: 'center'}} color={'mediumseagreen'}><b>{t('texts.active')}</b></Tag> : <Tag style={{width: '6em', textAlign: 'center'}} color={'crimson'}><b>{t('texts.inactive')}</b></Tag>,
+      width: '10%'
     },
     {
       title: t('tables.description'),
       dataIndex: 'description',
       key: 'description',
-      width: 250,
       sorter: (a, b) => a.description.localeCompare(b.description),
+      width: '35%'
     },
     {
       title: t('tables.signal'),
       dataIndex: 'signal',
       key: 'signal',
-      width: 100,
       sorter: (a, b) => Number(a.signal) - Number(b.signal),
-      render: text => parseFloat(text) > -25 ? <Tag color={'mediumseagreen'}><b>{text}</b></Tag> : parseFloat(text) > -28 ? <Tag color={'yellowgreen'}><b>{text}</b></Tag> : <Tag color={'crimson'}><b>{text}</b></Tag>
+      render: text => parseFloat(text) > -25 ? <Tag style={{width: '5em', textAlign: 'center'}} color={'mediumseagreen'}><b>{text}</b></Tag> : parseFloat(text) > -28 ? <Tag style={{width: '5em', textAlign: 'center'}} color={'yellowgreen'}><b>{text}</b></Tag> : <Tag style={{width: '5em', textAlign: 'center'}} color={'crimson'}><b>{text}</b></Tag>,
+      width: '10%'
     },
     {
       title: t('tables.serial_number'),
       dataIndex: 'sn',
       key: 'sn',
-      width: 150,
       sorter: (a, b) => a.sn.localeCompare(b.sn),
+      width: '20%'
     },
     {
       title: t('tables.actions'),
@@ -83,7 +86,7 @@ function NavigatePage() {
       render: (text, record) => {
         return <div>
           <Popconfirm
-            title='Are you sure to delete this ONU?'
+            title={t('questions.remove_onu')}
             okText='Yes'
             cancelText='No'
             onConfirm={() => removeOnu(record.pos)}
@@ -91,11 +94,14 @@ function NavigatePage() {
           >
             {
               permissions.indexOf('remove_onu') > -1 ?
-                <Button style={{ marginRight: 8 }} danger icon={<MinusCircleOutlined />} size="small">{t('actions.remove')}</Button> : null
+                <Tooltip title={t('actions.remove')}>
+                  <Button type="text" style={{ marginRight: 8 }} danger icon={<MinusCircleOutlined />} size="small"></Button>
+                </Tooltip>
+                : null
             }
           </Popconfirm>
           <Popconfirm
-            title='Are you sure to reboot this ONU?'
+            title={t('questions.reboot_onu')}
             okText='Yes'
             cancelText='No'
             onConfirm={() => rebootOnu(record.pos)}
@@ -103,19 +109,26 @@ function NavigatePage() {
           >
             {
               permissions.indexOf('reboot_onu') > -1 ?
-                <Button style={{ marginRight: 8 }} danger icon={<PoweroffOutlined />} size="small">{t('actions.reboot')}</Button> : null
+                <Tooltip title={t('actions.reboot')}>
+                  <Button type="text" style={{ marginRight: 8 }} danger icon={<PoweroffOutlined />} size="small"></Button>
+                </Tooltip>
+                : null
             }
           </Popconfirm>
           {
             permissions.indexOf('remove_onu') > -1 && oltInfo.vendor === 'Huawei' ?
-              <Button icon={<FaProjectDiagram style={{ marginRight: 8 }} />} size="small" onClick={() => {
-                setShowSrv(true)
-                setLoadSrvPorts(true)
-                getSrvPorts(currentPon, record.pos.split('/')[record.pos.split('/').length - 1])
-              }}>Srv. Ports</Button> : null
+              <Tooltip title="Srv. Ports">
+                <Button type="text" icon={<FaProjectDiagram style={{ marginRight: 8 }} />} size="small" onClick={() => {
+                  setShowSrv(true)
+                  setLoadSrvPorts(true)
+                  getSrvPorts(currentPon, record.pos.split('/')[record.pos.split('/').length - 1])
+                }}></Button>
+              </Tooltip>
+              : null
           }
         </div>
-      }
+      },
+      width: '15%'
     },
   ]
 
@@ -137,7 +150,7 @@ function NavigatePage() {
       dataIndex: 'actions',
       key: 'actions',
       render: (text, record) => {
-        return permissions.indexOf('add') ?
+        return permissions.indexOf('add') && oltInfo.vendor !== 'Huawei' ?
           <Button onClick={() => toggleAdd(record)} type="primary" size="small">{t('texts.add')}</Button> : null
       }
     },
@@ -169,7 +182,7 @@ function NavigatePage() {
       sorter: (a, b) => a.pon.localeCompare(b.pon),
       render: (text, record) =>
         <Popconfirm
-          title='Are you sure to delete this Service Port?'
+          title={t('questions.remove_srv_port')}
           okText={t('texts.yes')}
           cancelText={t('texts.no')}
           onConfirm={() => removeSrvPorts(record.index)}
@@ -193,6 +206,7 @@ function NavigatePage() {
 
   useEffect(() => {
     API.get(`/getOlts/${params.id}`).then(res => {
+      setLoadOltInfo(false)
       setOltInfo(res.data)
       let slots = res.data.slots
       if (slots.split('-')[1]) {
@@ -205,9 +219,7 @@ function NavigatePage() {
   }, [params.id])
 
   const getPon = (pon) => {
-    console.log(pon);
     pon = pon.split('/').length > 2 ? `${pon.split('/')[pon.split('/').length - 3]}/${pon.split('/')[pon.split('/').length - 2]}` : pon
-    console.log(pon);
     setCurrentPon(pon)
     API.post(`/exec/${params.id}/pon`, {
       pon: pon
@@ -242,7 +254,10 @@ function NavigatePage() {
       pos: pos
     }).then(res => {
       setLoadConfirm(false)
-      message.success('ONU Rebooted')
+      message.success(<span>{t('alerts.rebooted_onu')} <Button style={{padding: 4}} type="text" onClick={() => {
+        setResponseContent(res.data)
+        setShowModalResponse(true)
+      }}><InfoCircleOutlined style={{margin: 0}}/></Button></span>)
       setLoadPon(true)
       getPon(currentPon)
     }).catch(err => {
@@ -258,7 +273,10 @@ function NavigatePage() {
       pos: pos
     }).then(res => {
       setLoadConfirm(false)
-      message.success('ONU Removed')
+      message.success(<span>{t('alerts.removed_onu')} <Button style={{padding: 4}} type="text" onClick={() => {
+        setResponseContent(res.data)
+        setShowModalResponse(true)
+      }}><InfoCircleOutlined style={{margin: 0}}/></Button></span>)
       setLoadPon(true)
       getPon(currentPon)
     }).catch(err => {
@@ -290,7 +308,10 @@ function NavigatePage() {
       setLoadPon(true)
       let pos = FormAdd.getFieldValue('pos')
       getPon(`${pos.split('-')[0]}/${pos.split('-')[1]}`)
-      message.success(t('alerts.added_onu'))
+      message.success(<span>{t('alerts.added_onu')} <Button style={{padding: 4}} type="text" onClick={() => {
+        setResponseContent(res.data)
+        setShowModalResponse(true)
+      }}><InfoCircleOutlined style={{margin: 0}}/></Button></span>)
     }).catch(err => {
       setLoadPon(false)
       setLoadAdd(false)
@@ -323,7 +344,10 @@ function NavigatePage() {
     }).then(res => {
       setLoadRemSrvPorts(false)
       setShowSrv(false)
-      message.success('Service Port Removed')
+      message.success(<span>{t('alerts.removed_srv_port')} <Button style={{padding: 4}} type="text" onClick={() => {
+        setResponseContent(res.data)
+        setShowModalResponse(true)
+      }}><InfoCircleOutlined style={{margin: 0}}/></Button></span>)
     }).catch(err => {
       setLoadRemSrvPorts(false)
       message.error(t('alerts.operation_error'))
@@ -333,17 +357,17 @@ function NavigatePage() {
   }
 
   return (
-    <Row style={{ height: '100%' }}>
-      <Col span={24} style={{ backgroundColor: 'white', boxShadow: '0px 0.1em 1em #aaa5', borderRadius: 8, overflow: 'hidden' }}>
+    <Row style={{ height: '100%', maxHeight: '100%' }}>
+      <Col span={24} style={{ backgroundColor: 'white', boxShadow: '0px 0.1em 1em #aaa5', borderRadius: 8, overflow: 'hidden', height: '100%', maxHeight: '100%' }}>
         <Row style={{ height: '100%' }}>
-          <Col span={4}>
+          <Col span={4} style={{ height: '100%' }}>
             <Card bodyStyle={{ padding: 0, height: '100%' }} style={{ height: '100%' }}>
               <Title style={{ marginTop: 10, marginLeft: 20 }} level={5}>SLOTS</Title>
               <Menu
                 mode="inline"
-                style={{ height: '84vh', overflowX: 'hidden', overflowY: 'scroll' }}
+                style={{ height: '93%', overflowX: 'hidden', overflowY: 'scroll' }}
               >
-                {oltInfo.slots ? range(oltSlots[0], oltSlots[1] + 1).map(slot => <SubMenu icon={<FaHdd />} key={`sub${slot}`} title={`Slot ${slot}`}>{range(1 - (oltInfo.vendor === 'Huawei' ? 1 : 0), oltInfo.pons + 1).map(pon => <Menu.Item onClick={() => { setLoadPon(true); getPon(`${slot}/${pon}`) }} icon={<FaEthernet />} key={`i-${slot}-${pon}`}>PON {pon}</Menu.Item>)}</SubMenu>) : null}
+                {loadOltInfo ? <Menu.Item key={0}><Row style={{height: '100%'}} justify="center" align="middle"><Col><LoadingOutlined /></Col></Row></Menu.Item> : oltInfo.slots ? range(oltSlots[0], oltSlots[1] + 1).map(slot => <SubMenu icon={<FaHdd />} key={`sub${slot}`} title={`Slot ${slot}`}>{range(1 - (oltInfo.vendor === 'Huawei' ? 1 : 0), oltInfo.pons + 1).map(pon => <Menu.Item onClick={() => { setLoadPon(true); getPon(`${slot}/${pon}`) }} icon={<FaEthernet />} key={`i-${slot}-${pon}`}>PON {pon}</Menu.Item>)}</SubMenu>) : null}
               </Menu>
             </Card>
           </Col>
@@ -353,7 +377,8 @@ function NavigatePage() {
                 <Card bodyStyle={{ padding: 10 }}>
                   <Row justify="space-between">
                     <Col>
-                      <Title style={{ margin: 0 }} level={4}><Tag color='blue'><Title style={{ margin: 0 }} level={5}>{oltInfo.vendor}</Title></Tag>{oltInfo.name} {currentPon != null ? '- ' + currentPon : null}</Title>
+                      <Title style={{ margin: 0 }} level={4}>
+                        {loadOltInfo ? <LoadingOutlined /> : <><Tag color='blue'><Title style={{ margin: 0 }} level={5}>{oltInfo.vendor}</Title></Tag>{oltInfo.name} {currentPon != null ? '- ' + currentPon : null}</>}</Title>
                     </Col>
                     <Col>
                       <Row gutter={5}>
@@ -363,7 +388,7 @@ function NavigatePage() {
                             setLoadRefresh(true)
                             getPon(currentPon)
                           } else {
-                            message.error('You have not selected any PON yet')
+                            message.error(t('alerts.no_pon_selected'))
                           }
                         }} type="primary" icon={<ReloadOutlined />} /></Col>
                         <Col><Input.Search loading={loadSearch} onSearch={sn => { setLoadSearch(true); getOnu(sn) }} enterButton placeholder={t('texts.onu_serial')} /></Col>
@@ -491,6 +516,7 @@ function NavigatePage() {
       >
         <Table size="small" loading={loadSrvPorts} pagination={false} dataSource={srvPorts} columns={servicePortsCols} />
       </Modal>
+      <ResponseModal hook={setShowModalResponse} visible={showModalResponse} content={responseContent}/>
     </Row>
   )
 }

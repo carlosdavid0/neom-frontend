@@ -3,7 +3,7 @@ import * as React from "react";
 const TypoInlineSVG = (props) => (
   <svg
     width="137.05624mm"
-    height="21.353937mm"
+    // height="21.353937mm"
     viewBox="0 0 137.05625 21.353937"
     id="svg104"
     {...props}

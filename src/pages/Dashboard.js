@@ -1,31 +1,53 @@
 import React, { useEffect, useState } from "react"
-import { Card, Row, Col, Table, Tag, Image, message, Button } from 'antd'
+import { Card, Row, Col, Table, Tag, Image, message, Button, Input } from 'antd'
 import API from "../services/API"
 import {
   Link, useNavigate
 } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { FaIdCard, FaQuestion, FaServer, FaUser } from "react-icons/fa"
+import { FaIdCard, FaQuestion, FaServer, FaUser, FaBolt } from "react-icons/fa"
 import { AiOutlineReload } from 'react-icons/ai'
 import StatCard from "../components/StatCard"
-import axios from "axios"
+import { SearchOutlined } from "@ant-design/icons"
 
 function Dashboard() {
 
-  const navigate = useNavigate()
+  const [list, setList] = useState([])
   const [olts, setOlts] = useState([])
+  const [search, setSearch] = useState('')
   const [olt, setOlt] = useState()
+  const [stats, setStats] = useState({})
+  const [loadStats, setLoadStats] = useState(true)
   const [totalItems, setTotalItems] = useState({})
   const [currentPage, setCurrentPage] = useState(1)
-  const [t, i18n] = useTranslation('common')
+  const [t] = useTranslation('common')
   const [loadOlts, setLoadOlts] = useState(true)
   const [loadOlt, setLoadOlt] = useState(false)
   const [loadFirmware, setLoadFirmware] = useState(false)
   const [loadCpu, setLoadCpu] = useState(false)
   const permissions = localStorage.getItem('permissions').split(',')
+  const navigate = useNavigate()
 
   useEffect(() => {
     getOlts()
+    let tempStats = {}
+    API.get('/stats/olts').then(res => {
+      tempStats.olts = res.data
+      API.get('/stats/users').then(res => {
+        tempStats.users = res.data
+        API.get('/stats/roles').then(res => {
+          tempStats.roles = res.data
+          API.get('/log/count').then(res => {
+            tempStats.actions = res.data.count
+            API.get('/log/count/user').then(res => {
+              tempStats.your_actions = res.data.count
+              setStats(tempStats)
+              setLoadStats(false)
+            })
+          })
+        })
+      })
+    })
   }, [])
 
   const columns = [
@@ -55,10 +77,6 @@ function Dashboard() {
           value: 'Huawei'
         },
         {
-          text: 'Datacom',
-          value: 'Datacom'
-        },
-        {
           text: 'Fiberhome',
           value: 'Fiberhome'
         }
@@ -70,9 +88,6 @@ function Dashboard() {
         }
         if (vendor === 'Huawei') {
           return <Tag color={'volcano'} key={vendor}>{vendor}</Tag>
-        }
-        if (vendor === 'Datacom') {
-          return <Tag color={'blue'} key={vendor}>{vendor}</Tag>
         }
         if (vendor === 'Fiberhome') {
           return <Tag color={'gold'} key={vendor}>{vendor}</Tag>
@@ -96,12 +111,13 @@ function Dashboard() {
       title: t('tables.actions'),
       dataIndex: 'actions',
       key: 'actions',
-      render: (text, record) => <Link to={'/navigate/' + record.id}><Button size="small" style={{ width: '100%' }}>{t('actions.access')}</Button></Link>
+      render: (text, record) => <Link to={'/navigate/' + record.id}><Button style={{ width: '100%' }} size="small">{t('actions.access')}</Button></Link>
     },
   ]
 
   const getOlts = () => {
     API.get('/getOlts').then(res => {
+      setList(res.data)
       setOlts(res.data)
       setTotalItems(res.data.length)
       setLoadOlts(false)
@@ -113,6 +129,7 @@ function Dashboard() {
   }
 
   const getOlt = (id) => {
+    setOlt()
     setLoadOlt(true)
     API.get('/getOlts/' + id).then(res => {
       setOlt(res.data)
@@ -148,40 +165,68 @@ function Dashboard() {
     <Row gutter={[16, 16]}>
       <Col span={24}>
         <Row gutter={8}>
-          <Col span={4}>
-            <StatCard icon={<FaServer color="white" size='2.5em' />} stat='olts' text='OLTs' />
+          <Col span={6}>
+            <StatCard icon={<FaServer color="white" size='2.5em' />} stat={stats.olts} text='OLTs' load={loadStats} />
           </Col>
-          <Col span={4}>
-            <StatCard icon={<FaUser color="white" size='2.5em' />} stat='users' text='Users' />
+          <Col span={6}>
+            <StatCard icon={<FaUser color="white" size='2.5em' />} stat={stats.users} text={t('texts.users')} load={loadStats} />
           </Col>
-          <Col span={4}>
-            <StatCard icon={<FaIdCard color="white" size='2.5em' />} stat='roles' text='Roles' />
+          <Col span={6}>
+            <StatCard icon={<FaIdCard color="white" size='2.5em' />} stat={stats.roles} text={t('texts.roles')} load={loadStats} />
+          </Col>
+          <Col span={6}>
+            <StatCard icon={<FaBolt color="white" size='2.5em' />} stat={stats.actions} text={t('texts.interactions')} substat={stats.your_actions} subtext={t('texts.yours').toLowerCase()} load={loadStats} />
           </Col>
         </Row>
       </Col>
       <Col span={24}>
         <Row gutter={16}>
           <Col span={16}>
-            <Table
-              loading={loadOlts}
-              className="ant-table-rounded ant-table-shadow"
-              columns={columns}
-              dataSource={olts}
-              pagination={{
-                current: currentPage,
-                pageSize: 5,
-                total: totalItems,
-                showTotal: (total, range) => `${range[0]}-${range[1]} ${t('texts.of').toLocaleLowerCase()} ${total} ${t('texts.items').toLocaleLowerCase()}`
-              }}
-              onChange={handleTableChange}
-              size="small"
-              onRow={(record, idx) => {
-                return {
-                  style: { cursor: 'pointer' },
-                  onClick: event => getOlt(record.id)
-                }
-              }}
-            />
+            <Row gutter={[8, 8]} justify="space-between" align="middle">
+              <Col>
+                <h2 style={{margin: 0, fontWeight: 'bold'}}>OLTs</h2>
+              </Col>
+              <Col>
+                <Input
+                  prefix={<SearchOutlined />}
+                  placeholder={t('actions.search')}
+                value={search}
+                onChange={e => {
+                  const currValue = e.target.value;
+                  setSearch(currValue);
+                  const filteredData = list.filter(entry =>
+                    entry.name.toLowerCase().includes(currValue.toLowerCase())
+                  );
+                  setOlts(filteredData);
+                }}
+                />
+              </Col>
+              <Col span={24}>
+                <Table
+                  rowKey={'id'}
+                  loading={loadOlts}
+                  className="ant-table-rounded ant-table-shadow"
+                  columns={columns}
+                  dataSource={olts}
+                  pagination={{
+                    current: currentPage,
+                    pageSize: 12,
+                    showSizeChanger: false,
+                    total: totalItems,
+                    showTotal: (total, range) => `${range[0]}-${range[1]} ${t('texts.of').toLocaleLowerCase()} ${total} ${t('texts.items').toLocaleLowerCase()}`
+                  }}
+                  onChange={handleTableChange}
+                  size="small"
+                  onRow={(record, idx) => {
+                    return {
+                      style: { cursor: 'pointer' },
+                      onClick: () => getOlt(record.id),
+                      onDoubleClick: () => navigate('/navigate/' + record.id)
+                    }
+                  }}
+                />
+              </Col>
+            </Row>
           </Col>
           <Col span={8}>
             {

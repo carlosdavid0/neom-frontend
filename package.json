@@ -2,6 +2,7 @@
   "name": "neom-frontend",
   "version": "3.0.0",
   "apiUrl": "http://127.0.0.1:8000/",
+  "homepage": "build/",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.7.0",

@@ -1,71 +1,89 @@
 {
-	"actions": {
-		"access": "Betreten",
-		"create": "Erstelle",
-		"create_new": "Erstelle neu",
-		"edit": "Bearbeiten",
-		"logout": "Ausloggen",
-		"reboot": "Neustart",
-		"remove": "Löschen"
-	},
-	"alerts": {
-		"added_onu": "ONU hinzugefügt",
-		"created_olt": "OLT erstellt",
-		"operation_error": "Betriebsfehler"
-	},
-	"panel": {
-		"dashboard": "Dashboard",
-		"permissions": "Berechtigungen",
-		"roles": "Rollen",
-		"users": "Benutzer"
-	},
-	"placeholder": {
-		"email": "E-Mail - Muss eindeutig sein",
-		"name": "Name - Der Avatar wird basierend darauf generiert",
-		"password": "Passwort - Stark bitte ☕️",
-		"password_edit": "Passwort - Lassen Sie das Feld leer, wenn Sie es nicht ändern möchten"
-	},
-	"questions": {
-		"remove_olt": "Möchten Sie dieses OLT wirklich entfernen?",
-		"remove_permission": "Möchten Sie diese Berechtigung wirklich entfernen?",
-		"remove_role": "Möchten Sie diese Rolle wirklich entfernen?",
-		"remove_user": "Möchten Sie diesen Benutzer wirklich entfernen?"
-	},
-	"tables": {
-		"actions": "Aktionen",
-		"description": "Beschreibung",
-		"enabled": "Aktiviert",
-		"model": "Modell",
-		"name": "Name",
-		"position": "Position",
-		"serial_number": "Seriennummer",
-		"signal": "Signal",
-		"username": "Nutzername",
-		"vendor": "Verkäufer"
-	},
-	"texts": {
-		"action": "Aktion",
-		"active": "Aktiv",
-		"add": "Addieren",
-		"cancel": "Abbrechen",
-		"inactive": "Inaktiv",
-		"items": "Produkte",
-		"name": "Name",
-		"no": "Nein",
-		"no_data_olt": "Keine Daten",
-		"of": "Von",
-		"olt_information": "OLT Informationen",
-		"onu_serial": "ONU Seriennummer",
-		"password": "Passwort",
-		"permission": "Erlaubnis",
-		"port": "Port",
-		"role": "Rolle",
-		"save": "Speichern",
-		"select_olt": "Wählen Sie einen OLT aus der Tabelle links aus",
-		"type": "Typ",
-		"unauthorized": "Nicht autorisierte ONUs",
-		"user": "Nutzer",
-		"version": "Ausführung",
-		"yes": "Ja"
-	}
+  "actions": {
+    "access": "Betreten",
+    "create": "Erstelle",
+    "create_new": "Erstelle neu",
+    "edit": "Bearbeiten",
+    "logout": "Ausloggen",
+    "reboot": "Neustart",
+    "remove": "Löschen",
+    "select_all": "Wählen Sie Alle",
+    "clear_selection": "Auswahl löschen",
+    "login": "Anmeldung",
+    "search": "Suche"
+  },
+  "alerts": {
+    "added_onu": "ONU hinzugefügt",
+    "created_olt": "OLT erstellt",
+    "operation_error": "Betriebsfehler",
+    "rebooted_onu": "ONU neu gestartet",
+    "removed_onu": "ONU entfernt",
+    "removed_srv_port": "Serviceport entfernt",
+    "no_pon_selected": "Sie haben noch kein PON ausgewählt"
+  },
+  "panel": {
+    "dashboard": "Dashboard",
+    "permissions": "Berechtigungen",
+    "roles": "Rollen",
+    "users": "Benutzer"
+  },
+  "placeholder": {
+    "email": "E-Mail - Muss eindeutig sein",
+    "name": "Name - Der Avatar wird basierend darauf generiert",
+    "password": "Passwort - Stark bitte ☕️",
+    "password_edit": "Passwort - Lassen Sie das Feld leer, wenn Sie es nicht ändern möchten"
+  },
+  "questions": {
+    "remove_olt": "Möchten Sie dieses OLT wirklich entfernen?",
+    "remove_permission": "Möchten Sie diese Berechtigung wirklich entfernen?",
+    "remove_role": "Möchten Sie diese Rolle wirklich entfernen?",
+    "remove_user": "Möchten Sie diesen Benutzer wirklich entfernen?",
+    "forgot_password": "Haben Sie Ihr Passwort vergessen?",
+    "remove_onu": "Möchten Sie diese ONU wirklich löschen?",
+    "reboot_onu": "Are you sure to reboot this ONU?",
+    "remove_srv_port": "Möchten Sie diesen Service-Port wirklich löschen?"
+  },
+  "tables": {
+    "actions": "Aktionen",
+    "description": "Beschreibung",
+    "enabled": "Aktiviert",
+    "model": "Modell",
+    "name": "Name",
+    "position": "Position",
+    "serial_number": "Seriennummer",
+    "signal": "Signal",
+    "username": "Nutzername",
+    "vendor": "Verkäufer"
+  },
+  "texts": {
+    "action": "Aktion",
+    "active": "Aktiv",
+    "add": "Addieren",
+    "cancel": "Abbrechen",
+    "inactive": "Inaktiv",
+    "items": "Produkte",
+    "name": "Name",
+    "no": "Nein",
+    "no_data_olt": "Keine Daten",
+    "of": "Von",
+    "olt_information": "OLT Informationen",
+    "onu_serial": "ONU Seriennummer",
+    "password": "Passwort",
+    "permission": "Erlaubnis",
+    "port": "Port",
+    "role": "Rolle",
+    "save": "Speichern",
+    "select_olt": "Wählen Sie einen OLT aus der Tabelle links aus",
+    "type": "Typ",
+    "unauthorized": "Nicht autorisierte ONUs",
+    "user": "Benutzer",
+    "version": "Ausführung",
+    "yes": "Ja",
+    "recover_password": "Passwort wiederherstellen",
+    "users": "Benutzer",
+    "roles": "Rollen",
+    "interactions": "Interaktionen",
+    "yours": "Deine",
+    "detailed_response": "Ausführliche Antwort"
+  }
 }

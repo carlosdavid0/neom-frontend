@@ -1,71 +1,89 @@
 {
-	"actions": {
-		"access": "Access",
-		"create": "Create",
-		"create_new": "Create New",
-		"edit": "Edit",
-		"logout": "Logout",
-		"reboot": "Reboot",
-		"remove": "Remove"
-	},
-	"alerts": {
-		"added_onu": "ONU added",
-		"created_olt": "OLT created",
-		"operation_error": "Operation Error"
-	},
-	"panel": {
-		"dashboard": "Dashboard",
-		"permissions": "Permissions",
-		"roles": "Roles",
-		"users": "Users"
-	},
-	"placeholder": {
-		"email": "E-Mail - Must be unique",
-		"name": "Name - The avatar will be generated based on it",
-		"password": "Password - Strong please ☕️",
-		"password_edit": "Password - Leave blank if you don't want change it"
-	},
-	"questions": {
-		"remove_olt": "Are you sure to remove this OLT?",
-		"remove_permission": "Are you sure to remove this permission?",
-		"remove_role": "Are you sure to remove this role?",
-		"remove_user": "Are you sure to remove this user?"
-	},
-	"tables": {
-		"actions": "Actions",
-		"description": "Description",
-		"enabled": "Enabled",
-		"model": "Model",
-		"name": "Name",
-		"position": "Position",
-		"serial_number": "Serial Number",
-		"signal": "Signal",
-		"username": "Username",
-		"vendor": "Vendor"
-	},
-	"texts": {
-		"action": "Action",
-		"active": "Active",
-		"add": "Add",
-		"cancel": "Cancel",
-		"inactive": "Inactive",
-		"items": "Items",
-		"name": "Name",
-		"no": "No",
-		"no_data_olt": "No Data",
-		"of": "Of",
-		"olt_information": "OLT Information",
-		"onu_serial": "ONU Serial",
-		"password": "Password",
-		"permission": "Permission",
-		"port": "Port",
-		"role": "Role",
-		"save": "Save",
-		"select_olt": "Select one OLT from the table on the left",
-		"type": "Type",
-		"unauthorized": "Unauthorized ONUs",
-		"user": "User",
-		"version": "Version",
-		"yes": "Yes"
-	}
+  "actions": {
+    "access": "Access",
+    "create": "Create",
+    "create_new": "Create New",
+    "edit": "Edit",
+    "logout": "Logout",
+    "reboot": "Reboot",
+    "remove": "Remove",
+    "select_all": "Select All",
+    "clear_selection": "Clear Selection",
+    "login": "Login",
+    "search": "Search"
+  },
+  "alerts": {
+    "added_onu": "ONU added",
+    "created_olt": "OLT created",
+    "operation_error": "Operation Error",
+    "rebooted_onu": "ONU Rebooted",
+    "removed_onu": "ONU Removed",
+    "removed_srv_port": "Service Port Removed",
+    "no_pon_selected": "You have not selected any PON yet"
+  },
+  "panel": {
+    "dashboard": "Dashboard",
+    "permissions": "Permissions",
+    "roles": "Roles",
+    "users": "Users"
+  },
+  "placeholder": {
+    "email": "E-Mail - Must be unique",
+    "name": "Name - The avatar will be generated based on it",
+    "password": "Password - Strong please ☕️",
+    "password_edit": "Password - Leave blank if you don't want change it"
+  },
+  "questions": {
+    "remove_olt": "Are you sure to remove this OLT?",
+    "remove_permission": "Are you sure to remove this permission?",
+    "remove_role": "Are you sure to remove this role?",
+    "remove_user": "Are you sure to remove this user?",
+    "forgot_password": "Forgot your password?",
+    "remove_onu": "Are you sure to delete this ONU?",
+    "reboot_onu": "Are you sure to reboot this ONU?",
+    "remove_srv_port": "Are you sure to delete this Service Port?"
+  },
+  "tables": {
+    "actions": "Actions",
+    "description": "Description",
+    "enabled": "Enabled",
+    "model": "Model",
+    "name": "Name",
+    "position": "Position",
+    "serial_number": "Serial Number",
+    "signal": "Signal",
+    "username": "Username",
+    "vendor": "Vendor"
+  },
+  "texts": {
+    "action": "Action",
+    "active": "Active",
+    "add": "Add",
+    "cancel": "Cancel",
+    "inactive": "Inactive",
+    "items": "Items",
+    "name": "Name",
+    "no": "No",
+    "no_data_olt": "No Data",
+    "of": "Of",
+    "olt_information": "OLT Information",
+    "onu_serial": "ONU Serial",
+    "password": "Password",
+    "permission": "Permission",
+    "port": "Port",
+    "role": "Role",
+    "save": "Save",
+    "select_olt": "Select one OLT from the table on the left",
+    "type": "Type",
+    "unauthorized": "Unauthorized ONUs",
+    "user": "User",
+    "version": "Version",
+    "yes": "Yes",
+    "recover_password": "Recover Password",
+    "users": "Users",
+    "roles": "Roles",
+    "interactions": "Interactions",
+    "yours": "Yours",
+    "detailed_response": "Detailed Response"
+  }
 }

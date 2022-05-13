@@ -238,8 +238,8 @@ function RoleList() {
           <Form.Item
             style={{ width: 300 }}
           >
-            <Button style={{ marginRight: 8 }} onClick={() => FormCreate.setFieldsValue({ olts: olts.map(i => i.value) })}>Select All</Button>
-            <Button onClick={() => FormCreate.setFieldsValue({ olts: [] })}>Clear Selection</Button>
+            <Button style={{ marginRight: 8 }} onClick={() => FormCreate.setFieldsValue({ olts: olts.map(i => i.value) })}>{t('actions.select_all')}</Button>
+            <Button onClick={() => FormCreate.setFieldsValue({ olts: [] })}>{t('actions.clear_selection')}</Button>
           </Form.Item>
         </Form>
       </Modal>
@@ -298,8 +298,8 @@ function RoleList() {
           <Form.Item
             style={{ width: 300 }}
           >
-            <Button style={{ marginRight: 8 }} onClick={() => FormEdit.setFieldsValue({ olts: olts.map(i => i.value) })}>Select All</Button>
-            <Button onClick={() => FormEdit.setFieldsValue({ olts: [] })}>Clear Selection</Button>
+            <Button style={{ marginRight: 8 }} onClick={() => FormEdit.setFieldsValue({ olts: olts.map(i => i.value) })}>{t('actions.select_all')}</Button>
+            <Button onClick={() => FormEdit.setFieldsValue({ olts: [] })}>{t('actions.clear_selection')}</Button>
           </Form.Item>
         </Form>
       </Modal>

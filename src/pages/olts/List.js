@@ -117,10 +117,6 @@ function OltList() {
           value: 'Huawei'
         },
         {
-          text: 'Datacom',
-          value: 'Datacom'
-        },
-        {
           text: 'Fiberhome',
           value: 'Fiberhome'
         }
@@ -132,9 +128,6 @@ function OltList() {
         }
         if (vendor === 'Huawei') {
           return <Tag color={'volcano'} key={vendor}>{vendor}</Tag>
-        }
-        if (vendor === 'Datacom') {
-          return <Tag color={'blue'} key={vendor}>{vendor}</Tag>
         }
         if (vendor === 'Fiberhome') {
           return <Tag color={'gold'} key={vendor}>{vendor}</Tag>
@@ -165,6 +158,7 @@ function OltList() {
             FormEdit.setFieldsValue({ pons: record.pons });
             FormEdit.setFieldsValue({ unm: record.unm });
             FormEdit.setFieldsValue({ model: record.model });
+            FormEdit.setFieldsValue({ port: record.port });
           }}>Edit</Button>
           <Popconfirm
             title={t('questions.remove_olt')}
@@ -249,6 +243,7 @@ function OltList() {
         <Row>
           <Col span={24}>
             <Table
+              rowKey={'id'}
               className="ant-table-rounded ant-table-shadow"
               columns={columns}
               dataSource={oltsList}
@@ -340,7 +335,6 @@ function OltList() {
             >
               <Option key="Nokia">Nokia</Option>
               <Option key="Huawei">Huawei</Option>
-              <Option key="Datacom">Datacom</Option>
               <Option key="Fiberhome">Fiberhome</Option>
             </Select>
           </Form.Item>
@@ -475,7 +469,6 @@ function OltList() {
             >
               <Option key="Nokia">Nokia</Option>
               <Option key="Huawei">Huawei</Option>
-              <Option key="Datacom">Datacom</Option>
               <Option key="Fiberhome">Fiberhome</Option>
             </Select>
           </Form.Item>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Typography, Row, Col, Table, Tag, Space, Button, notification, Popconfirm, Modal, Form, Input, Select } from 'antd';
-import { CloseSquareOutlined, FormOutlined, PlusCircleOutlined, UserOutlined, MailOutlined, KeyOutlined, IdcardOutlined } from "@ant-design/icons";
+import { CloseSquareOutlined, FormOutlined, PlusCircleOutlined, UserOutlined, MailOutlined, KeyOutlined, IdcardOutlined, SearchOutlined } from "@ant-design/icons";
 import API from "../../services/API";
 import { useTranslation } from "react-i18next";
 
@@ -9,6 +9,7 @@ const { Option } = Select;
 
 function UserList() {
 
+  const [list, setList] = useState([]);
   const [userList, setUserList] = useState([]);
   const [totalItems, setTotalItems] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,20 +19,15 @@ function UserList() {
   const [modalEditVis, setModalEditVis] = useState(false);
   const [FormCreate] = Form.useForm();
   const [FormEdit] = Form.useForm();
+  const [tableLoad, setTableLoad] = useState(true)
+  const [search, setSearch] = useState('')
   const [t] = useTranslation('common')
 
   function refreshUsers() {
+    setTableLoad(true)
     API.get('/users').then((res) => {
-      let temp = res.data.map((user, i) => {
-        return {
-          key: user['id'],
-          name: user['name'],
-          email: user['email'],
-          role: user['role_name'],
-          role_id: user['role_id']
-        }
-      });
-      setUserList(temp);
+      setList(res.data);
+      setUserList(res.data);
       setTotalItems(res.data.length);
       let roles = [];
       res.data.map((user) => roles.push(user['role_name']))
@@ -43,17 +39,19 @@ function UserList() {
         }
       });
       setRoles(roles);
+      setTableLoad(false)
     }).catch((err) => {
       notification.error({
         message: err.response.data['message']
       });
+      setTableLoad(false)
     });
   }
 
   useEffect(() => {
     refreshUsers();
     API.get('/roles').then((res) => {
-       let temp = res.data.map((role) => {
+      let temp = res.data.map((role) => {
         return {
           key: role['id'],
           name: role['name']
@@ -110,8 +108,8 @@ function UserList() {
     },
     {
       title: t('texts.role'),
-      dataIndex: 'role',
-      key: 'role',
+      dataIndex: 'role_name',
+      key: 'role_name',
       filters: roles,
       onFilter: (value, record) => record.role.indexOf(value) === 0,
       render: role => <Tag color={'geekblue'} key={role}>{role}</Tag>
@@ -124,7 +122,7 @@ function UserList() {
           <Button size={'small'} type={'primary'} icon={<FormOutlined />} onClick={() => {
             setModalEditVis(true);
             FormEdit.setFieldsValue({
-              id: record['key'],
+              id: record['id'],
               name: record['name'],
               email: record['email'],
               role: record['role_id'],
@@ -172,14 +170,33 @@ function UserList() {
   }
 
   return (
-    <Row>
+    <Row gutter={[16, 16]}>
       <Col span={24}>
-        <Row justify={'space-between'}>
+        <Row justify={'space-between'} align='middle'>
           <Col span={3}>
-            <Title level={2}>{t('panel.users')}</Title>
+            <Title style={{ margin: 0 }} level={2}>{t('panel.users')}</Title>
           </Col>
-          <Col span={3}>
-            <Button type={'primary'} style={{ marginTop: 10 }} icon={<PlusCircleOutlined />} onClick={() => setModalCreateVis(true)}>{t('actions.create_new')}</Button>
+          <Col span={10}>
+            <Row align="middle" gutter={16} style={{ width: '100%' }}>
+              <Col span={16}>
+                <Input
+                  prefix={<SearchOutlined />}
+                  placeholder={t('actions.search')}
+                  value={search}
+                  onChange={e => {
+                    const currValue = e.target.value;
+                    setSearch(currValue);
+                    const filteredData = list.filter(entry =>
+                      entry.name.toLowerCase().includes(currValue.toLowerCase())
+                    );
+                    setUserList(filteredData);
+                  }}
+                />
+              </Col>
+              <Col span={8}>
+                <Button style={{ width: '100%' }} type={'primary'} icon={<PlusCircleOutlined />} onClick={() => setModalCreateVis(true)}>{t('actions.create_new')}</Button>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Col>
@@ -187,12 +204,14 @@ function UserList() {
         <Row>
           <Col span={24}>
             <Table
+              rowKey={'id'}
               className="ant-table-rounded ant-table-shadow"
               columns={columns}
               dataSource={userList}
+              loading={tableLoad}
               pagination={{
                 current: currentPage,
-                pageSize: 8,
+                pageSize: 10,
                 total: totalItems,
                 showTotal: (total, range) => `${range[0]}-${range[1]} ${t('texts.of').toLocaleLowerCase()} ${total} ${t('texts.items').toLocaleLowerCase()}`
               }}
@@ -247,7 +266,7 @@ function UserList() {
               placeholder={t('texts.role')}
               style={{ width: '100%' }}
             >
-              {userRoles.map((role) => <Option value={role['key']}>{role['name']}</Option>)}
+              {userRoles.map((role) => <Option key={role.key} value={role['key']}>{role['name']}</Option>)}
             </Select>
           </Form.Item>
         </Form>
@@ -300,7 +319,7 @@ function UserList() {
               placeholder="Role"
               suffixIcon={<IdcardOutlined />}
             >
-              {userRoles.map((role) => <Option value={role['key']}>{role['name']}</Option>)}
+              {userRoles.map((role) => <Option key={role.key} value={role['key']}>{role['name']}</Option>)}
             </Select>
           </Form.Item>
         </Form>

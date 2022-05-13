@@ -26,7 +26,7 @@ const { Text } = Typography;
 const { Option } = Select;
 i18next.use(initReactI18next).init({
   interpolation: { escapeValue: false },
-  lng: localStorage.getItem('lang') ? localStorage.getItem('lang') : 'en',
+  lng: localStorage.getItem('lang') ? localStorage.getItem('lang') : navigator.language.split('-')[0],
   resources: {
     en: {
       common: common_en
@@ -60,7 +60,7 @@ function HomePage(props) {
   const [popAvatar, setPopAvatar] = useState(false);
   const [emoji] = useState(getEmoji())
   const [t, i18n] = useTranslation('common')
-  const [antLocale, setAntlocale] = useState(localStorage.getItem('lang') ? antLangs[localStorage.getItem('lang')] : enUS)
+  const [antLocale, setAntlocale] = useState(localStorage.getItem('lang') ? antLangs[localStorage.getItem('lang')] : antLangs[navigator.language.split('-')[0]])
   const [permissions, setPermissions] = useState([])
 
   function logout() {
@@ -103,32 +103,38 @@ function HomePage(props) {
           <Header style={{ padding: 0 }}>
             <Row justify="space-between">
               <Col>
-                <TypoInlineSVG fill="#fff" style={{ marginLeft: 20, marginTop: -10, width: '30%' }} />
+                <TypoInlineSVG fill="#fff" style={{ marginLeft: 20, marginTop: 20, width: '30%' }} />
               </Col>
-              <Col span={3}>
-                <Select bordered={false} defaultValue={localStorage.getItem('lang') ? localStorage.getItem('lang') : 'en'} style={{ marginRight: 8, width: '70%', color: 'white', textAlign: 'center' }} onChange={handleLang}>
-                  <Option value="en"><CustomFlag country="US" /> English</Option>
-                  <Option value="pt"><CustomFlag country="BR" /> Português</Option>
-                  <Option value="it"><CustomFlag country="IT" /> Italiano</Option>
-                  <Option value="de"><CustomFlag country="DE" /> Deutsch</Option>
-                </Select>
-                <Popover
-                  placement="bottomRight"
-                  content={
-                    <Row>
-                      <Col style={{ textAlign: 'center' }}>
-                        <Text>{localStorage.getItem('name')} - {emoji}</Text><br />
-                        <Divider style={{ marginTop: 5, marginBottom: 10 }} />
-                        <Button onClick={logout} style={{ width: '100%' }}>{t('actions.logout')}</Button>
-                      </Col>
-                    </Row>
-                  }
-                  trigger="click"
-                  visible={popAvatar}
-                  onVisibleChange={() => setPopAvatar(!popAvatar)}
-                >
-                  <Avatar size={40} src={`https://avatars.dicebear.com/api/avataaars/${localStorage.getItem('name')}.svg?b=%231a446b`} style={{ cursor: 'pointer' }} />
-                </Popover>
+              <Col span={4}>
+                <Row justify="center">
+                  <Col>
+                    <Select bordered={false} defaultValue={localStorage.getItem('lang') ? localStorage.getItem('lang') : navigator.language.split('-')[0]} style={{ marginRight: 8, color: 'white', textAlign: 'center' }} onChange={handleLang}>
+                      <Option value="en"><CustomFlag country="US" /> English</Option>
+                      <Option value="pt"><CustomFlag country="BR" /> Português</Option>
+                      <Option value="it"><CustomFlag country="IT" /> Italiano</Option>
+                      <Option value="de"><CustomFlag country="DE" /> Deutsch</Option>
+                    </Select>
+                  </Col>
+                  <Col>
+                    <Popover
+                      placement="bottomRight"
+                      content={
+                        <Row>
+                          <Col style={{ textAlign: 'center' }}>
+                            <Text>{localStorage.getItem('name')} - {emoji}</Text><br />
+                            <Divider style={{ marginTop: 5, marginBottom: 10 }} />
+                            <Button onClick={logout} style={{ width: '100%' }}>{t('actions.logout')}</Button>
+                          </Col>
+                        </Row>
+                      }
+                      trigger="click"
+                      visible={popAvatar}
+                      onVisibleChange={() => setPopAvatar(!popAvatar)}
+                    >
+                      <Avatar size={40} src={`https://avatars.dicebear.com/api/avataaars/${localStorage.getItem('name')}.svg?b=%231a446b`} style={{ cursor: 'pointer' }} />
+                    </Popover>
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </Header>
