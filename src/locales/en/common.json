@@ -10,7 +10,8 @@
     "select_all": "Select All",
     "clear_selection": "Clear Selection",
     "login": "Login",
-    "search": "Search"
+    "search": "Search",
+    "recover": "Recover"
   },
   "alerts": {
     "added_onu": "ONU added",
@@ -19,7 +20,11 @@
     "rebooted_onu": "ONU Rebooted",
     "removed_onu": "ONU Removed",
     "removed_srv_port": "Service Port Removed",
-    "no_pon_selected": "You have not selected any PON yet"
+    "no_pon_selected": "You have not selected any PON yet",
+    "required_field": "This field is required",
+    "email_sent": "Email sent successfully",
+    "passwords_dont_match": "The passwords do not match",
+    "password_reseted": "Password reseted"
   },
   "panel": {
     "dashboard": "Dashboard",
@@ -31,7 +36,9 @@
     "email": "E-Mail - Must be unique",
     "name": "Name - The avatar will be generated based on it",
     "password": "Password - Strong please ☕️",
-    "password_edit": "Password - Leave blank if you don't want change it"
+    "password_edit": "Password - Leave blank if you don't want change it",
+    "new_password": "New password",
+    "repeat_password": "Repeat password"
   },
   "questions": {
     "remove_olt": "Are you sure to remove this OLT?",

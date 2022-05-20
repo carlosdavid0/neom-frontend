@@ -285,8 +285,9 @@ function NavigatePage() {
   }
 
   const getOnu = (sn) => {
+    sn = [sn.slice(0, 4), sn.slice(4)]
     API.post(`/exec/${params.id}/onu`, {
-      onu: sn.toLowerCase().replace(/([a-z]{4})/g, x => x.toUpperCase())
+      onu: sn[0].toUpperCase() + sn[1].toLowerCase()
     }).then(res => {
       setFound(Number(res.data.split('/')[res.data.split('/').length - 1]))
       setLoadSearch(false)

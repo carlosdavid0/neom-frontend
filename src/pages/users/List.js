@@ -130,7 +130,7 @@ function UserList() {
           }}>{t('actions.edit')}</Button>
           <Popconfirm
             title={t('questions.remove_user')}
-            onConfirm={() => removeUser(record.key)}
+            onConfirm={() => removeUser(record.id)}
           >
             <Button size={'small'} type={'danger'} icon={<CloseSquareOutlined />}>{t('actions.remove')}</Button>
           </Popconfirm>

@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect } from "react"
-import { Row, Col, Card, Form, Input, Button, notification, Modal } from 'antd'
+import { Row, Col, Card, Form, Input, Button, notification, Modal, message } from 'antd'
 import { MailOutlined, KeyOutlined } from '@ant-design/icons'
 import pkg from '../../package.json'
 import API from "../services/API"
@@ -19,6 +19,7 @@ function LoginPage() {
   const [FormLogin] = useForm()
   const navigate = useNavigate()
   const [t] = useTranslation('common')
+  const [loadRecover, setLoadRecover] = useState(false)
 
   useLayoutEffect(() => {
     if (localStorage.getItem('token') != null) {
@@ -43,7 +44,17 @@ function LoginPage() {
   }
 
   const recoverPassword = () => {
-
+    setLoadRecover(true)
+    API.post('recover-password', {
+      'email': FormRecover.getFieldValue('email_recover')
+    }).then(res => {
+      setModalRecoverVis(false)
+      message.success(t('alerts.email_sent'))
+      setLoadRecover(false)
+    }).catch(err => {
+      setLoadRecover(false)
+      message.error(err.response.data.message)
+    })
   }
 
   return (
@@ -100,11 +111,12 @@ function LoginPage() {
         >
           <Form.Item
             name={'email_recover'}
+            rules={[{ required: true, message: t('alerts.required_field') }]}
           >
             <Input placeholder='E-Mail'/>
           </Form.Item>
           <Form.Item>
-            <Button htmlType="submit" type="primary">Recover</Button>
+            <Button loading={loadRecover} htmlType="submit" type="primary">{t('actions.recover')}</Button>
           </Form.Item>
         </Form>
       </Modal>

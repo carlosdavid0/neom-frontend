@@ -12,6 +12,7 @@ import RoleList from "../pages/roles/List";
 import OltList from "../pages/olts/List";
 import Dashboard from "../pages/Dashboard";
 import NavigatePage from "../pages/Navigate";
+import PasswordRecover from "../pages/PasswordRecover";
 
 const RedirectLogin = () => {
   return(
@@ -28,6 +29,7 @@ const RedirectDashboard = () => {
 const RouteList = () => {
   let public_routes = useRoutes([
     { path: '/login', element: <LoginPage/>},
+    { path: '/recover/:token', element: <PasswordRecover/>},
     { path: '/*', element: <RedirectLogin/>}
   ]);
   let auth_routes = useRoutes([
