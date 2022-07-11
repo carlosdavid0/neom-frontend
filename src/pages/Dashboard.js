@@ -79,6 +79,10 @@ function Dashboard() {
         {
           text: 'Fiberhome',
           value: 'Fiberhome'
+        },
+        {
+          text: 'Datacom',
+          value: 'Datacom'
         }
       ],
       onFilter: (value, record) => record.vendor.indexOf(value) === 0,
@@ -91,6 +95,9 @@ function Dashboard() {
         }
         if (vendor === 'Fiberhome') {
           return <Tag color={'gold'} key={vendor}>{vendor}</Tag>
+        }
+        if (vendor === 'Datacom') {
+          return <Tag color={'blue'} key={vendor}>{vendor}</Tag>
         }
       }
     },

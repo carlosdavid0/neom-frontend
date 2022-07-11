@@ -93,7 +93,7 @@ function NavigatePage() {
             okButtonProps={{ loading: loadConfirm }}
           >
             {
-              permissions.indexOf('remove_onu') > -1 ?
+              permissions.indexOf('remove_onu') > -1 && oltInfo.vendor !== 'Datacom' ?
                 <Tooltip title={t('actions.remove')}>
                   <Button type="text" style={{ marginRight: 8 }} danger icon={<MinusCircleOutlined />} size="small"></Button>
                 </Tooltip>
@@ -108,7 +108,7 @@ function NavigatePage() {
             okButtonProps={{ loading: loadConfirm }}
           >
             {
-              permissions.indexOf('reboot_onu') > -1 ?
+              permissions.indexOf('reboot_onu') > -1 && oltInfo.vendor !== 'Datacom' ?
                 <Tooltip title={t('actions.reboot')}>
                   <Button type="text" style={{ marginRight: 8 }} danger icon={<PoweroffOutlined />} size="small"></Button>
                 </Tooltip>
@@ -285,9 +285,12 @@ function NavigatePage() {
   }
 
   const getOnu = (sn) => {
-    sn = [sn.slice(0, 4), sn.slice(4)]
+    if (oltInfo.vendor === 'Fiberhome') {
+      sn = [sn.slice(0, 4), sn.slice(4)];
+      sn = sn[0].toUpperCase() + sn[1].toLowerCase();
+    }
     API.post(`/exec/${params.id}/onu`, {
-      onu: sn[0].toUpperCase() + sn[1].toLowerCase()
+      onu: sn
     }).then(res => {
       setFound(Number(res.data.split('/')[res.data.split('/').length - 1]))
       setLoadSearch(false)
@@ -412,7 +415,7 @@ function NavigatePage() {
                 <Card bodyStyle={{ padding: 10 }}>
                   <Row justify="space-between">
                     <Col><Title level={4} style={{ marginBottom: 0, marginLeft: 10 }}>{t('texts.unauthorized')}</Title></Col>
-                    <Col><Button onClick={() => { setLoadPending(true); getPending() }} loading={loadPending} type="link" icon={<ReloadOutlined />} /></Col>
+                    <Col><Button disabled={oltInfo.vendor === 'Datacom'} onClick={() => { setLoadPending(true); getPending() }} loading={loadPending} type="link" icon={<ReloadOutlined />} /></Col>
                   </Row>
                 </Card>
                 <Table size="small" loading={loadPending} columns={pendingCols} dataSource={pending} pagination={false} scroll={{ y: '21vh' }} />

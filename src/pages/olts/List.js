@@ -154,6 +154,10 @@ function OltList() {
           text: "Fiberhome",
           value: "Fiberhome",
         },
+        {
+          text: "Datacom",
+          value: "Datacom",
+        },
       ],
       onFilter: (value, record) => record.vendor.indexOf(value) === 0,
       render: (vendor) => {
@@ -174,6 +178,13 @@ function OltList() {
         if (vendor === "Fiberhome") {
           return (
             <Tag color={"gold"} key={vendor}>
+              {vendor}
+            </Tag>
+          );
+        }
+        if (vendor === "Datacom") {
+          return (
+            <Tag color={"blue"} key={vendor}>
               {vendor}
             </Tag>
           );
@@ -369,7 +380,7 @@ function OltList() {
           >
             <Input placeholder={"IP"} suffix={<ApiOutlined />} />
           </Form.Item>
-          {vendor === "Huawei" ? (
+          {vendor === "Huawei" || vendor === "Datacom" ? (
             <Form.Item name={"port"} label={t("texts.port")}>
               <InputNumber placeholder={t("texts.port")} />
             </Form.Item>
@@ -418,6 +429,7 @@ function OltList() {
               <Option key="Nokia">Nokia</Option>
               <Option key="Huawei">Huawei</Option>
               <Option key="Fiberhome">Fiberhome</Option>
+              <Option key="Datacom">Datacom</Option>
             </Select>
           </Form.Item>
           <Form.Item
@@ -454,7 +466,16 @@ function OltList() {
                   <Option value="MA5600T">MA5600T</Option>
                   <Option value="MA5800">MA5800</Option>
                 </>
-              ) : null}
+              ) : vendor === 'Datacom' ?
+                <>
+                  <Option value='DM4610 4 GPON'>DM4610 4 GPON</Option>
+                  <Option value='DM4610 8 GPON'>DM4610 8 GPON</Option>
+                  <Option value='DM4611'>DM4611</Option>
+                  <Option value='DM4612'>DM4612</Option>
+                  <Option value='DM4615'>DM4615</Option>
+                  <Option value='DM4618'>DM4618</Option>
+                </> :
+                null}
             </Select>
           </Form.Item>
           {vendor === "Fiberhome" ? (
@@ -500,7 +521,7 @@ function OltList() {
           >
             <Input placeholder={"IP"} suffix={<ApiOutlined />} />
           </Form.Item>
-          {vendor === "Huawei" ? (
+          {vendor === "Huawei" || vendor === "Datacom" ? (
             <Form.Item name={"port"} label={t("texts.port")}>
               <InputNumber placeholder={t("texts.port")} />
             </Form.Item>
@@ -546,6 +567,7 @@ function OltList() {
               <Option key="Nokia">Nokia</Option>
               <Option key="Huawei">Huawei</Option>
               <Option key="Fiberhome">Fiberhome</Option>
+              <Option key="Datacom">Datacom</Option>
             </Select>
           </Form.Item>
           <Form.Item
@@ -581,7 +603,16 @@ function OltList() {
                   <Option value="MA5600T">MA5600T</Option>
                   <Option value="MA5800">MA5800</Option>
                 </>
-              ) : null}
+              ) : vendor === 'Datacom' ?
+                <>
+                  <Option value='DM4610 4 GPON'>DM4610 4 GPON</Option>
+                  <Option value='DM4610 8 GPON'>DM4610 8 GPON</Option>
+                  <Option value='DM4611'>DM4611</Option>
+                  <Option value='DM4612'>DM4612</Option>
+                  <Option value='DM4615'>DM4615</Option>
+                  <Option value='DM4618'>DM4618</Option>
+                </> :
+                null}
             </Select>
           </Form.Item>
           {vendor === "Fiberhome" ? (
