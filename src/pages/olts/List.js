@@ -15,6 +15,7 @@ import {
   Select,
   InputNumber,
   Switch,
+  Checkbox,
 } from "antd";
 import {
   CloseSquareOutlined,
@@ -23,6 +24,7 @@ import {
   BranchesOutlined,
   ApiOutlined,
   FieldStringOutlined,
+  KeyOutlined,
 } from "@ant-design/icons";
 import API from "../../services/API";
 import { useTranslation } from "react-i18next";
@@ -39,6 +41,7 @@ function OltList() {
   const [FormCreate] = Form.useForm();
   const [FormEdit] = Form.useForm();
   const [vendor, setVendor] = useState();
+  const [snmp, setSNMP] = useState(false);
   const [t] = useTranslation("common");
 
   function refreshOlts() {
@@ -133,7 +136,7 @@ function OltList() {
         <Switch
           size="small"
           defaultChecked={enabled}
-          onChange={() => changeEnabled(olt.key)}
+          onChange={() => changeEnabled(olt.id)}
         />
       ),
     },
@@ -209,6 +212,7 @@ function OltList() {
             onClick={() => {
               setModalEditVis(true);
               setVendor(record.vendor);
+              setSNMP(record.snmp);
               FormEdit.setFieldsValue({ id: record.id });
               FormEdit.setFieldsValue({ name: record.name });
               FormEdit.setFieldsValue({ ip: record.ip });
@@ -220,6 +224,7 @@ function OltList() {
               FormEdit.setFieldsValue({ unm: record.unm });
               FormEdit.setFieldsValue({ model: record.model });
               FormEdit.setFieldsValue({ port: record.port });
+              FormEdit.setFieldsValue({ community: record.community });
             }}
           >
             Edit
@@ -246,6 +251,7 @@ function OltList() {
   };
 
   function newOlt() {
+    console.log(FormCreate.getFieldsValue());
     API.post("olts", {
       name: FormCreate.getFieldValue("name"),
       ip: FormCreate.getFieldValue("ip"),
@@ -258,6 +264,8 @@ function OltList() {
       unm: FormCreate.getFieldValue("unm"),
       model: FormCreate.getFieldValue("model"),
       port: FormCreate.getFieldValue("port"),
+      snmp: snmp,
+      community: FormCreate.getFieldValue("community"),
     })
       .then((res) => {
         notification.success({
@@ -286,6 +294,8 @@ function OltList() {
       username: FormEdit.getFieldValue("username"),
       password: FormEdit.getFieldValue("password"),
       port: FormEdit.getFieldValue("port"),
+      snmp: snmp,
+      community: FormEdit.getFieldValue("community"),
     })
       .then((res) => {
         notification.success({
@@ -360,8 +370,8 @@ function OltList() {
         <Form
           form={FormCreate}
           onFinish={newOlt}
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 19 }}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
         >
           <Form.Item
             name={"name"}
@@ -414,8 +424,28 @@ function OltList() {
             label={t("texts.password")}
             rules={[{ required: true, message: "Password is required" }]}
           >
+
             <Input placeholder={t("texts.password")} suffix={<ApiOutlined />} />
           </Form.Item>
+          <Form.Item
+            name={"snmp"}
+            label='SNMP'
+            valuePropName="checked"
+          >
+            <Checkbox checked={snmp} onChange={value => setSNMP(value.target.checked)}/>
+          </Form.Item>
+          {
+            snmp ? <Form.Item
+              name={"community"}
+              label='Community'
+              rules={[{ required: true, message: "SNMP Community is required" }]}
+            >
+              <Input
+                placeholder='SNMP Community'
+                suffix={<KeyOutlined />}
+              />
+            </Form.Item> : null
+          }
           <Form.Item
             name={"vendor"}
             label={t("tables.vendor")}
@@ -501,8 +531,8 @@ function OltList() {
         <Form
           form={FormEdit}
           onFinish={editOlt}
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 19 }}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
         >
           <Form.Item name={"id"} hidden>
             <Input />
@@ -554,6 +584,24 @@ function OltList() {
           >
             <Input placeholder={t("texts.password")} suffix={<ApiOutlined />} />
           </Form.Item>
+          <Form.Item
+            name={"snmp"}
+            label='SNMP'
+          >
+            <Checkbox checked={snmp} onChange={value => setSNMP(value.target.checked)} />
+          </Form.Item>
+          {
+            snmp ? <Form.Item
+              name={"community"}
+              label='Community'
+              rules={[{ required: true, message: "SNMP Community is required" }]}
+            >
+              <Input
+                placeholder='SNMP Community'
+                suffix={<KeyOutlined />}
+              />
+            </Form.Item> : null
+          }
           <Form.Item
             name={"vendor"}
             label={t("tables.vendor")}
