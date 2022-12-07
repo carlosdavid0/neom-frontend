@@ -299,7 +299,6 @@ function NavigatePage() {
     }).catch(err => {
       setLoadPon(false)
       setLoadSearch(false)
-    }).catch(err => {
       message.error(err.response.data.message)
     })
   }
