@@ -93,7 +93,7 @@ function NavigatePage() {
             okButtonProps={{ loading: loadConfirm }}
           >
             {
-              permissions.indexOf('remove_onu') > -1 && oltInfo.vendor !== 'Datacom' ?
+              permissions.indexOf('remove_onu') > -1 && oltInfo.vendor !== 'Datacom' && oltInfo.vendor !== 'ZTE' ?
                 <Tooltip title={t('actions.remove')}>
                   <Button type="text" style={{ marginRight: 8 }} danger icon={<MinusCircleOutlined />} size="small"></Button>
                 </Tooltip>
@@ -108,7 +108,7 @@ function NavigatePage() {
             okButtonProps={{ loading: loadConfirm }}
           >
             {
-              permissions.indexOf('reboot_onu') > -1 && oltInfo.vendor !== 'Datacom' ?
+              permissions.indexOf('reboot_onu') > -1 && oltInfo.vendor !== 'Datacom' && oltInfo.vendor !== 'ZTE' ?
                 <Tooltip title={t('actions.reboot')}>
                   <Button type="text" style={{ marginRight: 8 }} danger icon={<PoweroffOutlined />} size="small"></Button>
                 </Tooltip>
@@ -150,7 +150,7 @@ function NavigatePage() {
       dataIndex: 'actions',
       key: 'actions',
       render: (text, record) => {
-        return permissions.indexOf('add') && oltInfo.vendor !== 'Huawei' ?
+        return permissions.indexOf('add') && oltInfo.vendor !== 'Huawei' && oltInfo.vendor !== 'ZTE' ?
           <Button onClick={() => toggleAdd(record)} type="primary" size="small">{t('texts.add')}</Button> : null
       }
     },
