@@ -161,6 +161,10 @@ function OltList() {
           text: "Datacom",
           value: "Datacom",
         },
+        {
+          text: "ZTE",
+          value: "ZTE",
+        },
       ],
       onFilter: (value, record) => record.vendor.indexOf(value) === 0,
       render: (vendor) => {
@@ -186,6 +190,13 @@ function OltList() {
           );
         }
         if (vendor === "Datacom") {
+          return (
+            <Tag color={"blue"} key={vendor}>
+              {vendor}
+            </Tag>
+          );
+        }
+        if (vendor === "ZTE") {
           return (
             <Tag color={"blue"} key={vendor}>
               {vendor}
@@ -225,6 +236,7 @@ function OltList() {
               FormEdit.setFieldsValue({ model: record.model });
               FormEdit.setFieldsValue({ port: record.port });
               FormEdit.setFieldsValue({ community: record.community });
+              FormEdit.setFieldsValue({ superpass: record.superpass });
             }}
           >
             Edit
@@ -266,6 +278,7 @@ function OltList() {
       port: FormCreate.getFieldValue("port"),
       snmp: snmp,
       community: FormCreate.getFieldValue("community"),
+      superpass: FormCreate.getFieldValue("superpass"),
     })
       .then((res) => {
         notification.success({
@@ -296,6 +309,7 @@ function OltList() {
       port: FormEdit.getFieldValue("port"),
       snmp: snmp,
       community: FormEdit.getFieldValue("community"),
+      superpass: FormEdit.getFieldValue("superpass"),
     })
       .then((res) => {
         notification.success({
@@ -504,6 +518,10 @@ function OltList() {
                   <Option value='DM4612'>DM4612</Option>
                   <Option value='DM4615'>DM4615</Option>
                   <Option value='DM4618'>DM4618</Option>
+                </>
+                : vendor === 'ZTE' ?
+                <>
+                  <Option value='ZXA10 C600'>ZXA10 C600</Option>
                 </> :
                 null}
             </Select>
@@ -511,6 +529,11 @@ function OltList() {
           {vendor === "Fiberhome" ? (
             <Form.Item name={"unm"} label={"UNM IP"}>
               <Input placeholder={"UNM IP"} suffix={<ApiOutlined />} />
+            </Form.Item>
+          ) : null}
+          {vendor === "ZTE" ? (
+            <Form.Item name={"superpass"} label={"Super Pass"}>
+              <Input placeholder={"Super Pass"} suffix={<ApiOutlined />} />
             </Form.Item>
           ) : null}
         </Form>
@@ -659,6 +682,10 @@ function OltList() {
                   <Option value='DM4612'>DM4612</Option>
                   <Option value='DM4615'>DM4615</Option>
                   <Option value='DM4618'>DM4618</Option>
+                </>
+                : vendor === 'ZTE' ?
+                <>
+                  <Option value='ZXA10 C600'>ZXA10 C600</Option>
                 </> :
                 null}
             </Select>
@@ -666,6 +693,11 @@ function OltList() {
           {vendor === "Fiberhome" ? (
             <Form.Item name={"unm"} label={"UNM IP"}>
               <Input placeholder={"UNM IP"} suffix={<ApiOutlined />} />
+            </Form.Item>
+          ) : null}
+          {vendor === "ZTE" ? (
+            <Form.Item name={"superpass"} label={"Super Pass"}>
+              <Input placeholder={"Super Pass"} suffix={<ApiOutlined />} />
             </Form.Item>
           ) : null}
         </Form>
