@@ -83,6 +83,10 @@ function Dashboard() {
         {
           text: 'Datacom',
           value: 'Datacom'
+        },
+        {
+          text: 'ZTE',
+          value: 'ZTE'
         }
       ],
       onFilter: (value, record) => record.vendor.indexOf(value) === 0,
@@ -97,6 +101,9 @@ function Dashboard() {
           return <Tag color={'gold'} key={vendor}>{vendor}</Tag>
         }
         if (vendor === 'Datacom') {
+          return <Tag color={'blue'} key={vendor}>{vendor}</Tag>
+        }
+        if (vendor === 'ZTE') {
           return <Tag color={'blue'} key={vendor}>{vendor}</Tag>
         }
       }
