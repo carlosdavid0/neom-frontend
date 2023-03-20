@@ -193,7 +193,7 @@ function RoleList() {
       </Col>
       <Modal
         title={`${t('actions.create')} ${t('texts.role')}`}
-        visible={modalCreateVis}
+        open={modalCreateVis}
         onCancel={() => setModalCreateVis(false)}
         footer={[
           <Button key={'back'} onClick={() => setModalCreateVis(false)}>{t('texts.cancel')}</Button>,
@@ -245,7 +245,7 @@ function RoleList() {
       </Modal>
       <Modal
         title={`${t('actions.edit')} ${t('texts.role')}`}
-        visible={modalEditVis}
+        open={modalEditVis}
         onCancel={() => setModalEditVis(false)}
         footer={[
           <Button key={'back'} onClick={() => setModalEditVis(false)}>{t('texts.cancel')}</Button>,

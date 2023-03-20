@@ -101,7 +101,7 @@ function LoginPage() {
       </Col>
       <Modal
         title={t('texts.recover_password')}
-        visible={modalRecoverVis}
+        open={modalRecoverVis}
         onCancel={() => setModalRecoverVis(false)}
         footer={false}
       >

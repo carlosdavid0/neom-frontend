@@ -362,6 +362,7 @@ function OltList() {
                   ).toLocaleLowerCase()} ${total} ${t(
                     "texts.items"
                   ).toLocaleLowerCase()}`,
+                showSizeChanger: false,
               }}
               onChange={handleTableChange}
             />
@@ -370,7 +371,7 @@ function OltList() {
       </Col>
       <Modal
         title={`${t("actions.create")} OLT`}
-        visible={modalCreateVis}
+        open={modalCreateVis}
         onCancel={() => setModalCreateVis(false)}
         footer={[
           <Button key={"back"} onClick={() => setModalCreateVis(false)}>
@@ -438,28 +439,25 @@ function OltList() {
             label={t("texts.password")}
             rules={[{ required: true, message: "Password is required" }]}
           >
-
             <Input placeholder={t("texts.password")} suffix={<ApiOutlined />} />
           </Form.Item>
-          <Form.Item
-            name={"snmp"}
-            label='SNMP'
-            valuePropName="checked"
-          >
-            <Checkbox checked={snmp} onChange={value => setSNMP(value.target.checked)}/>
+          <Form.Item name={"snmp"} label="SNMP" valuePropName="checked">
+            <Checkbox
+              checked={snmp}
+              onChange={(value) => setSNMP(value.target.checked)}
+            />
           </Form.Item>
-          {
-            snmp ? <Form.Item
+          {snmp ? (
+            <Form.Item
               name={"community"}
-              label='Community'
-              rules={[{ required: true, message: "SNMP Community is required" }]}
+              label="Community"
+              rules={[
+                { required: true, message: "SNMP Community is required" },
+              ]}
             >
-              <Input
-                placeholder='SNMP Community'
-                suffix={<KeyOutlined />}
-              />
-            </Form.Item> : null
-          }
+              <Input placeholder="SNMP Community" suffix={<KeyOutlined />} />
+            </Form.Item>
+          ) : null}
           <Form.Item
             name={"vendor"}
             label={t("tables.vendor")}
@@ -510,20 +508,20 @@ function OltList() {
                   <Option value="MA5600T">MA5600T</Option>
                   <Option value="MA5800">MA5800</Option>
                 </>
-              ) : vendor === 'Datacom' ?
+              ) : vendor === "Datacom" ? (
                 <>
-                  <Option value='DM4610 4 GPON'>DM4610 4 GPON</Option>
-                  <Option value='DM4610 8 GPON'>DM4610 8 GPON</Option>
-                  <Option value='DM4611'>DM4611</Option>
-                  <Option value='DM4612'>DM4612</Option>
-                  <Option value='DM4615'>DM4615</Option>
-                  <Option value='DM4618'>DM4618</Option>
+                  <Option value="DM4610 4 GPON">DM4610 4 GPON</Option>
+                  <Option value="DM4610 8 GPON">DM4610 8 GPON</Option>
+                  <Option value="DM4611">DM4611</Option>
+                  <Option value="DM4612">DM4612</Option>
+                  <Option value="DM4615">DM4615</Option>
+                  <Option value="DM4618">DM4618</Option>
                 </>
-                : vendor === 'ZTE' ?
+              ) : vendor === "ZTE" ? (
                 <>
-                  <Option value='ZXA10 C600'>ZXA10 C600</Option>
-                </> :
-                null}
+                  <Option value="ZXA10 C600">ZXA10 C600</Option>
+                </>
+              ) : null}
             </Select>
           </Form.Item>
           {vendor === "Fiberhome" ? (
@@ -540,7 +538,7 @@ function OltList() {
       </Modal>
       <Modal
         title={`${t("actions.edit")} OLT`}
-        visible={modalEditVis}
+        open={modalEditVis}
         onCancel={() => setModalEditVis(false)}
         footer={[
           <Button key={"back"} onClick={() => setModalEditVis(false)}>
@@ -607,24 +605,23 @@ function OltList() {
           >
             <Input placeholder={t("texts.password")} suffix={<ApiOutlined />} />
           </Form.Item>
-          <Form.Item
-            name={"snmp"}
-            label='SNMP'
-          >
-            <Checkbox checked={snmp} onChange={value => setSNMP(value.target.checked)} />
+          <Form.Item name={"snmp"} label="SNMP">
+            <Checkbox
+              checked={snmp}
+              onChange={(value) => setSNMP(value.target.checked)}
+            />
           </Form.Item>
-          {
-            snmp ? <Form.Item
+          {snmp ? (
+            <Form.Item
               name={"community"}
-              label='Community'
-              rules={[{ required: true, message: "SNMP Community is required" }]}
+              label="Community"
+              rules={[
+                { required: true, message: "SNMP Community is required" },
+              ]}
             >
-              <Input
-                placeholder='SNMP Community'
-                suffix={<KeyOutlined />}
-              />
-            </Form.Item> : null
-          }
+              <Input placeholder="SNMP Community" suffix={<KeyOutlined />} />
+            </Form.Item>
+          ) : null}
           <Form.Item
             name={"vendor"}
             label={t("tables.vendor")}
@@ -674,20 +671,20 @@ function OltList() {
                   <Option value="MA5600T">MA5600T</Option>
                   <Option value="MA5800">MA5800</Option>
                 </>
-              ) : vendor === 'Datacom' ?
+              ) : vendor === "Datacom" ? (
                 <>
-                  <Option value='DM4610 4 GPON'>DM4610 4 GPON</Option>
-                  <Option value='DM4610 8 GPON'>DM4610 8 GPON</Option>
-                  <Option value='DM4611'>DM4611</Option>
-                  <Option value='DM4612'>DM4612</Option>
-                  <Option value='DM4615'>DM4615</Option>
-                  <Option value='DM4618'>DM4618</Option>
+                  <Option value="DM4610 4 GPON">DM4610 4 GPON</Option>
+                  <Option value="DM4610 8 GPON">DM4610 8 GPON</Option>
+                  <Option value="DM4611">DM4611</Option>
+                  <Option value="DM4612">DM4612</Option>
+                  <Option value="DM4615">DM4615</Option>
+                  <Option value="DM4618">DM4618</Option>
                 </>
-                : vendor === 'ZTE' ?
+              ) : vendor === "ZTE" ? (
                 <>
-                  <Option value='ZXA10 C600'>ZXA10 C600</Option>
-                </> :
-                null}
+                  <Option value="ZXA10 C600">ZXA10 C600</Option>
+                </>
+              ) : null}
             </Select>
           </Form.Item>
           {vendor === "Fiberhome" ? (

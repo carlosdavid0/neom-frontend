@@ -7,7 +7,7 @@ export default function ResponseModal(props) {
   return (
     <Modal
       title={`${t('texts.detailed_response')}`}
-      visible={props.visible}
+      open={props.open}
       onCancel={() => props.hook(false)}
       footer={false}
       centered

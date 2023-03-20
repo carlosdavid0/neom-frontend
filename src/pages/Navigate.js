@@ -361,7 +361,7 @@ function NavigatePage() {
 
   return (
     <Row style={{ height: '100%', maxHeight: '100%' }}>
-      <Col span={24} style={{ backgroundColor: 'white', boxShadow: '0px 0.1em 1em #aaa5', borderRadius: 8, overflow: 'hidden', height: '100%', maxHeight: '100%' }}>
+      <Col span={24} style={{ boxShadow: '0px 0.1em 1em #aaa5', overflow: 'hidden', height: '100%', maxHeight: '100%' }}>
         <Row style={{ height: '100%' }}>
           <Col span={4} style={{ height: '100%' }}>
             <Card bodyStyle={{ padding: 0, height: '100%' }} style={{ height: '100%' }}>
@@ -425,7 +425,7 @@ function NavigatePage() {
       </Col>
       <Modal
         title={`${t('texts.add')} ONU`}
-        visible={showAdd}
+        open={showAdd}
         onCancel={() => setShowAdd(false)}
         footer={[
           <Button key={'back'} onClick={() => setShowAdd(false)}>{t('texts.cancel')}</Button>,
@@ -513,13 +513,13 @@ function NavigatePage() {
       </Modal>
       <Modal
         title='Service Ports'
-        visible={showSrv}
+        open={showSrv}
         onCancel={() => setShowSrv(false)}
         footer={false}
       >
         <Table size="small" loading={loadSrvPorts} pagination={false} dataSource={srvPorts} columns={servicePortsCols} />
       </Modal>
-      <ResponseModal hook={setShowModalResponse} visible={showModalResponse} content={responseContent}/>
+      <ResponseModal hook={setShowModalResponse} open={showModalResponse} content={responseContent}/>
     </Row>
   )
 }

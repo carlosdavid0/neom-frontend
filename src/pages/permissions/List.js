@@ -147,7 +147,7 @@ function PermissionList() {
       </Col>
       <Modal
         title={`${t('actions.create')} ${t('texts.permission')}`}
-        visible={modalCreateVis}
+        open={modalCreateVis}
         onCancel={() => setModalCreateVis(false)}
         footer={[
           <Button key={'back'} onClick={() => setModalCreateVis(false)}>{t('texts.cancel')}</Button>,
@@ -172,7 +172,7 @@ function PermissionList() {
       </Modal>
       <Modal
         title={`${t('actions.edit')} ${t('texts.permission')}`}
-        visible={modalEditVis}
+        open={modalEditVis}
         onCancel={() => setModalEditVis(false)}
         footer={[
           <Button key={'back'} onClick={() => setModalEditVis(false)}>{t('texts.cancel')}</Button>,

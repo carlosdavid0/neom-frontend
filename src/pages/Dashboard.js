@@ -104,7 +104,7 @@ function Dashboard() {
           return <Tag color={'blue'} key={vendor}>{vendor}</Tag>
         }
         if (vendor === 'ZTE') {
-          return <Tag color={'blue'} key={vendor}>{vendor}</Tag>
+          return <Tag color={'magenta'} key={vendor}>{vendor}</Tag>
         }
       }
     },
