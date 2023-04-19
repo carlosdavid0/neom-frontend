@@ -663,8 +663,21 @@ function OltList() {
               <Input placeholder={'UNM IP'} suffix={<ApiOutlined />} />
             </Form.Item>
           ) : null}
-          {vendor === 'ZTE' ? (
-            <Form.Item name={'superpass'} label={'Super Pass'}>
+          {vendor === 'Nokia' ? (
+            <Form.Item
+              name={'superuser'}
+              label={'Super User'}
+              rules={[{ required: true, message: 'Superuser is required' }]}
+            >
+              <Input placeholder={'Super User'} suffix={<ApiOutlined />} />
+            </Form.Item>
+          ) : null}
+          {vendor === 'ZTE' || vendor === 'Nokia' ? (
+            <Form.Item
+              name={'superpass'}
+              label={'Super Pass'}
+              rules={[{ required: true, message: 'Superpass is required' }]}
+            >
               <Input placeholder={'Super Pass'} suffix={<ApiOutlined />} />
             </Form.Item>
           ) : null}
