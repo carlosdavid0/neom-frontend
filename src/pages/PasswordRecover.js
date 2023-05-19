@@ -3,7 +3,6 @@ import { useForm } from "antd/lib/form/Form";
 import LogoSVG from "../assets/svgs/Logo";
 import TypoSVG from "../assets/svgs/Typo";
 import BgLogin from "../assets/blobs/bg-login.svg"
-import { t } from "i18next";
 import { KeyOutlined } from "@ant-design/icons";
 import pkg from '../../package.json'
 import { useTranslation } from "react-i18next";
@@ -17,7 +16,7 @@ export default function PasswordRecover() {
   const navigate = useNavigate()
 
   const recover = () => {
-    if (FormReset.getFieldValue('password') == FormReset.getFieldValue('repeat-password')) {
+    if (FormReset.getFieldValue('password') === FormReset.getFieldValue('repeat-password')) {
       API.post('change-password', {
         'token': params.token,
         'password': FormReset.getFieldValue('password')
