@@ -704,7 +704,12 @@ function NavigatePage() {
                   <Option value="AN5506-02-FA">AN5506-02-FA</Option>
                   <Option value="HG6145E">HG6145E</Option>
                 </>
-              ) : oltInfo.vendor === 'Nokia' || oltInfo.vendor === 'ZTE' ? (
+              ) : oltInfo.vendor === 'Nokia' ? (
+                <>
+                  <Option value="router">Router</Option>
+                  <Option value="bridge">Bridge</Option>
+                </>
+              ) : oltInfo.vendor === 'ZTE' ? (
                 <>
                   <Option value="ZTE-F670L:Router">ZTE-F670L | Router</Option>
                 </>
