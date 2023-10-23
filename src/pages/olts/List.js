@@ -446,6 +446,7 @@ function OltList() {
               <Option key="Huawei">Huawei</Option>
               <Option key="Fiberhome">Fiberhome</Option>
               <Option key="Datacom">Datacom</Option>
+              <Option key="ZTE">ZTE</Option>
             </Select>
           </Form.Item>
           <Form.Item
@@ -610,6 +611,7 @@ function OltList() {
               <Option key="Huawei">Huawei</Option>
               <Option key="Fiberhome">Fiberhome</Option>
               <Option key="Datacom">Datacom</Option>
+              <Option key="ZTE">ZTE</Option>
             </Select>
           </Form.Item>
           <Form.Item
