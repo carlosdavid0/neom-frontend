@@ -712,7 +712,7 @@ function NavigatePage() {
               ) : oltInfo.vendor === 'ZTE' ? (
                 <>
                   <Option value="ZTE-F670L:Router">ZTE-F670L | Router</Option>
-                  <Option value="ZTE-F670L:Bridge">ZTE-F670L | Bridge</Option>
+                  <Option value="ZTE-F601:Bridge">ZTE-F601 | Bridge</Option>
                 </>
               ) : null}
             </Select>
