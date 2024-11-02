@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import BgLogin from '@/assets/bg-login.svg';
 import LogoSVG from '@/assets/svgs/Logo';
 import TypoSVG from '@/assets/svgs/Typo';
@@ -9,7 +10,9 @@ import { LockIcon, MailIcon } from 'lucide-react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
+import RecoverPasswordModal from './recover-password';
 
 const schema = z.object({
   email: z.string().email({ message: 'E-mail inválido' }),
@@ -22,10 +25,13 @@ function Login() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
   });
+
+  const [_, setSearchParams] = useSearchParams();
 
   async function onSubmit(data: FormValues) {
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -47,7 +53,7 @@ function Login() {
     >
       <section className='flex justify-center items-center h-full w-full flex-col gap-5'>
         <div className='flex items-center gap-2'>
-          <LogoSVG fill='white'  />
+          <LogoSVG fill='white' />
           <TypoSVG fill='white' />
         </div>
         <Card className='w-full max-w-md'>
@@ -73,8 +79,14 @@ function Login() {
             />
 
             <div className='flex items-center justify-between'>
-              <Button variant={'link'} className='p-0 font-normal'>
-                {' '}
+              <Button
+                variant={'link'}
+                className='p-0 font-normal'
+                onClick={() => {
+                  setSearchParams({ recoverPassword: 'true' });
+                }}
+                type='button'
+              >
                 Esqueceu sua senha?
               </Button>
               <Button disabled={isSubmitting} type='submit'>
@@ -84,6 +96,7 @@ function Login() {
           </form>
         </Card>
       </section>
+      <RecoverPasswordModal emailByDefault={watch('email')} />
     </main>
   );
 }

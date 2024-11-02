@@ -1,9 +1,9 @@
-import Login from "@/pages/auth/login";
+import { Routes } from "react-router-dom";
 
 
 function App() {
     return (
-        <Login />
+        <Routes />
     );
 }
 
