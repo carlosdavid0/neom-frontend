@@ -21,7 +21,7 @@ export function Menu({ isOpen }: MenuProps) {
 
   return (
     <div className="flex flex-col h-full">
-      <nav className="flex flex-col flex-grow mt-8">
+      <nav className="flex flex-col flex-grow mt-5">
         <ul className="flex flex-col flex-grow items-start space-y-1 px-2 overflow-hidden">
           {menuList.map(({ groupLabel, menus, className }, index) => (
             <li
