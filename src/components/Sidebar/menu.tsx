@@ -69,6 +69,7 @@ export function Menu({ isOpen }: MenuProps) {
                               variant={active ? "secondary" : "ghost"}
                               className={cn(
                                 "w-full justify-start h-10 mb-1",
+                                active ? "bg-gray-600 text-white hover:bg-gray-700" : "bg-transparent text-white hover:bg-gray-700 hover:text-white",
                                 className
                               )}
                               asChild

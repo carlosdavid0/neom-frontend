@@ -14,7 +14,7 @@ export default function Layout() {
       <Sidebar />
       <main
         className={cn(
-          "min-h-[calc(100vh_-_56px)] bg-popover transition-[margin-left] ease-in-out duration-300 overflow-auto overflow-x-hidden",
+          "min-h-[calc(100vh_-_56px)]  transition-[margin-left] ease-in-out duration-300 overflow-auto overflow-x-hidden",
           sidebar?.isOpen === false ? "lg:ml-[90px]" : "lg:ml-72"
         )}
       >
